@@ -1,1 +1,55 @@
+// Клас для перетворення int у шістнадцяткову строку
+public class IntToHexString {
+
+    public static String intToHexString(int i) {
+        return Integer.toHexString(i).toUpperCase();
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println("Результат для 51966: " + intToHexString(51966)); // Очікується "CAFE"
+            System.out.println("Результат для 255: " + intToHexString(255));   // Очікується "FF"
+            System.out.println("Результат для 0: " + intToHexString(0));       // Очікується "0"
+        } catch (IllegalArgumentException e) {
+            System.err.println("Помилка: " + e.getMessage());
+        }
+    }
+}
+
+// Клас для підрахунку кількості чисел у реченні
+public class CountNumbersInSentence {
+
+    public static int countNumbers(String sentence) {
+        if (sentence == null) {
+            throw new NullPointerException("Речення не може бути null");
+        }
+
+        String[] words = sentence.split("\\s+");
+        int count = 0;
+
+        for (String word : words) {
+            if (word.matches("\\d+")) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        try {
+            String example = "The user with the nickname koala757677 this month wrote 3 times more comments than the user with the nickname croco181dile920 4 months ago";
+            System.out.println("Результат: " + countNumbers(example)); // Очікується 2
+
+            String example2 = "123 abc 456 def 789";
+            System.out.println("Результат: " + countNumbers(example2)); // Очікується 3
+
+            String example3 = "No numbers here!";
+            System.out.println("Результат: " + countNumbers(example3)); // Очікується 0
+
+        } catch (NullPointerException e) {
+            System.err.println("Помилка: " + e.getMessage());
+        }
+    }
+}
 
