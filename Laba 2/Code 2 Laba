@@ -1,1 +1,42 @@
+// Завдання з таблиці: Розв'язання рівнянь
+public class Equations {
+
+    // Рівняння 19
+    public static double equation19(double a, double b, double c, double d) {
+        if (d + c <= 0) {
+            throw new IllegalArgumentException("Знаменник не може бути <= 0");
+        }
+        return Math.sqrt(Math.log(Math.abs(a))) / (1 + Math.sinh(b) / Math.log(d + c));
+    }
+
+    // Рівняння 20
+    public static double equation20(double b, double d, double c) {
+        if (b <= 0) {
+            throw new IllegalArgumentException("b має бути > 0");
+        }
+        if (Math.abs(-d / c) > 1) {
+            throw new IllegalArgumentException("Аргумент arcsin має бути в межах [-1, 1]");
+        }
+        return 2 * Math.log(Math.pow(b, 5)) + Math.asin(-d / c);
+    }
+
+    // Рівняння 21
+    public static double equation21(double a, double b, double c, double d) {
+        if (b == 0) {
+            throw new IllegalArgumentException("b не може дорівнювати 0");
+        }
+        return 3 * (Math.log(Math.abs(a / b)) + Math.sqrt(Math.cos(c)) + Math.exp(d));
+    }
+
+    public static void main(String[] args) {
+        // Приклади використання
+        try {
+            System.out.println("Рівняння 19: " + equation19(1.234, -3.12, 5.45, 2.0));
+            System.out.println("Рівняння 20: " + equation20(3.56, 1.02, 3));
+            System.out.println("Рівняння 21: " + equation21(-2.54, 1.23, -2.14, -0.23));
+        } catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException: " + e.getMessage());
+        }
+    }
+}
 
