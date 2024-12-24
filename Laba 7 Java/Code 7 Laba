@@ -1,1 +1,154 @@
+import java.util.*;
+
+class Employee {
+    private String firstName;
+    private String lastName;
+    private double salary;
+
+    public Employee(String firstName, String lastName, double salary) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.salary = salary;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    @Override
+    public String toString() {
+        return getFullName() + " (Salary: " + salary + ")";
+    }
+}
+
+class Department {
+    private String name;
+    private Employee manager;
+    private List<Employee> employees;
+
+    public Department(String name, Employee manager) {
+        this.name = name;
+        this.manager = manager;
+        this.employees = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Employee getManager() {
+        return manager;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+}
+
+class Company {
+    private String name;
+    private Employee director;
+    private List<Department> departments;
+
+    public Company(String name, Employee director) {
+        this.name = name;
+        this.director = director;
+        this.departments = new ArrayList<>();
+    }
+
+    public Employee getDirector() {
+        return director;
+    }
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void addDepartment(Department department) {
+        departments.add(department);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Create employees
+        Employee director = new Employee("John", "Smith", 150000);
+        Employee manager1 = new Employee("Alice", "Johnson", 90000);
+        Employee manager2 = new Employee("Bob", "Brown", 95000);
+        Employee emp1 = new Employee("Charlie", "Davis", 60000);
+        Employee emp2 = new Employee("Diana", "Evans", 70000);
+        Employee emp3 = new Employee("Eve", "White", 85000);
+
+        // Create departments
+        Department dep1 = new Department("IT", manager1);
+        dep1.addEmployee(emp1);
+        dep1.addEmployee(emp2);
+
+        Department dep2 = new Department("HR", manager2);
+        dep2.addEmployee(emp3);
+
+        // Create company
+        Company company = new Company("TechCorp", director);
+        company.addDepartment(dep1);
+        company.addDepartment(dep2);
+
+        // Task 1: Find the maximum salary
+        double maxSalary = findMaxSalary(company);
+        System.out.println("Maximum salary: " + maxSalary);
+
+        // Task 2: Find departments where an employee earns more than their manager
+        List<String> departmentsWithHigherPaidEmployees = findDepartmentsWithHigherPaidEmployees(company);
+        System.out.println("Departments with employees earning more than their manager: " + departmentsWithHigherPaidEmployees);
+
+        // Task 3: Create a list of all employees, including managers and director
+        List<Employee> allEmployees = getAllEmployees(company);
+        System.out.println("All employees:");
+        for (Employee employee : allEmployees) {
+            System.out.println(employee);
+        }
+    }
+
+    public static double findMaxSalary(Company company) {
+        double maxSalary = company.getDirector().getSalary();
+        for (Department department : company.getDepartments()) {
+            maxSalary = Math.max(maxSalary, department.getManager().getSalary());
+            for (Employee employee : department.getEmployees()) {
+                maxSalary = Math.max(maxSalary, employee.getSalary());
+            }
+        }
+        return maxSalary;
+    }
+
+    public static List<String> findDepartmentsWithHigherPaidEmployees(Company company) {
+        List<String> departments = new ArrayList<>();
+        for (Department department : company.getDepartments()) {
+            double managerSalary = department.getManager().getSalary();
+            for (Employee employee : department.getEmployees()) {
+                if (employee.getSalary() > managerSalary) {
+                    departments.add(department.getName());
+                    break;
+                }
+            }
+        }
+        return departments;
+    }
+
+    public static List<Employee> getAllEmployees(Company company) {
+        List<Employee> allEmployees = new ArrayList<>();
+        allEmployees.add(company.getDirector());
+        for (Department department : company.getDepartments()) {
+            allEmployees.add(department.getManager());
+            allEmployees.addAll(department.getEmployees());
+        }
+        return allEmployees;
+    }
+}
 
